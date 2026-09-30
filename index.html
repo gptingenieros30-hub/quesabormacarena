@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Qué Sabor Macarena</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Figtree:wght@400;500;700&display=swap">
+<style>
+/* Layout: hero con sello-logo, salvajadas por tamaño, menú completo con carrito, ubicación, pedido por WhatsApp y barra de estado fija */
+:root{
+  --bg:#f1f8ee;
+  --surface:#ffffff;
+  --fg:#10301f;
+  --muted:#4a6656;
+  --forest:#0f3d2a;
+  --leaf:#1f8a4c;
+  --lime:#b9e23a;
+  --line:#cfe2c8;
+  --on-forest:#f1f8ee;
+  --soft-on-forest:#b9d6ae;
+  --font-display:"Bowlby One","Arial Black",Impact,sans-serif;
+  --font-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b1a12;--surface:#12291c;--fg:#e8f3e2;--muted:#9ab8a4;--forest:#07120c;--leaf:#4cc27a;--lime:#c6ee4a;--line:#22402f;--on-forest:#e8f3e2;--soft-on-forest:#9ab8a4;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b1a12;--surface:#12291c;--fg:#e8f3e2;--muted:#9ab8a4;--forest:#07120c;--leaf:#4cc27a;--lime:#c6ee4a;--line:#22402f;--on-forest:#e8f3e2;--soft-on-forest:#9ab8a4;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.55;padding-inline:16px;padding-block:0}
+.wrap{max-width:1080px;margin-inline:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.05;margin:0;text-wrap:balance}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--leaf)}
+.price{font-variant-numeric:tabular-nums;font-weight:700}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:44px;height:44px;flex:none}
+.brand span{font-family:var(--font-display);font-size:18px;line-height:1}
+nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+nav a{font-weight:700;font-size:15px;text-decoration:none}
+nav a:hover{color:var(--leaf)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--lime);color:#10301f;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:999px;border:2px solid var(--forest);font-size:16px;cursor:pointer;font-family:inherit;line-height:1.2}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--leaf);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--fg)}
+
+/* hero */
+.hero{background:var(--forest);color:var(--on-forest);border-radius:28px;padding:clamp(24px,5vw,56px);display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;overflow:hidden}
+.hero h1{font-size:clamp(38px,7vw,76px);color:var(--on-forest)}
+.hero h1 em{font-style:normal;color:var(--lime)}
+.hero p{max-width:46ch;font-size:19px;color:var(--soft-on-forest);margin:18px 0 26px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero .btn.ghost{color:var(--on-forest);border-color:var(--on-forest)}
+.hero .where{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--soft-on-forest);margin-top:20px}
+.badge{justify-self:center;width:min(100%,300px);aspect-ratio:1;max-width:100%}
+.badge svg{width:100%;height:100%}
+.spin{animation:spin 30s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.strip{display:flex;gap:28px;overflow:hidden;white-space:nowrap;margin-block:22px;font-family:var(--font-display);font-size:20px;color:var(--leaf);user-select:none}
+.strip span{display:inline-flex;gap:28px;animation:slide 30s linear infinite;flex:none}
+@keyframes slide{to{transform:translateX(-100%)}}
+
+section{padding-block:clamp(36px,6vw,64px)}
+section h2{font-size:clamp(30px,5vw,50px);margin-top:8px}
+.lead{color:var(--muted);max-width:60ch;margin:12px 0 0}
+
+/* salvajadas */
+.sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.size{background:var(--lime);color:#10301f;border:2px solid var(--forest);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.size .ppl{font-family:var(--font-display);font-size:34px;line-height:1}
+.size .ppl small{font-family:var(--font-body);font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:block;margin-top:4px}
+.size .from{font-size:15px;margin-top:8px}
+.size .from b{font-size:22px}
+.size .btn{margin-top:10px;background:var(--forest);color:#f1f8ee;border-color:var(--forest)}
+
+/* menú */
+.menu-tools{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;align-items:center}
+.menu-tools input{flex:1 1 240px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-block:10px 6px;margin-top:8px;scrollbar-width:thin;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.tab{font-family:inherit;font-size:15px;font-weight:700;padding:9px 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;white-space:nowrap;flex:none}
+.tab[aria-selected="true"]{background:var(--forest);border-color:var(--forest);color:var(--on-forest)}
+.sub{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--leaf);margin:22px 0 0;grid-column:1/-1}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:10px}
+.item{background:var(--surface);border:2px solid var(--line);border-radius:18px;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.pic{aspect-ratio:4/3;width:100%;max-width:100%;background:var(--forest);position:relative;flex:none}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic.none{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:var(--lime);font-family:var(--font-display);font-size:20px;text-align:center;padding:12px}
+.pic.none svg{width:40px;height:40px}
+.item-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.item h3{font-family:var(--font-body);font-weight:700;font-size:18px;line-height:1.25}
+.item p{margin:0;color:var(--muted);font-size:14.5px;flex:1}
+.opts{display:grid;gap:6px;margin-top:6px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px dashed var(--line)}
+.opts .opt{display:flex;align-items:center;gap:8px;font-weight:500;font-size:14.5px;cursor:pointer}
+.opts .opt input{width:18px;height:18px;padding:0;accent-color:var(--leaf);flex:none}
+.opts .opt b{margin-left:auto;font-variant-numeric:tabular-nums}
+.incart{font-size:13px;font-weight:700;color:var(--leaf)}
+.item-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.item-foot .price{font-size:18px}
+.add{font:inherit;font-size:14px;font-weight:700;padding:7px 14px;border-radius:999px;border:2px solid var(--forest);background:var(--lime);color:#10301f;cursor:pointer}
+.qty{display:inline-flex;align-items:center;gap:4px;border:2px solid var(--forest);border-radius:999px;padding:2px}
+.qty button{font:inherit;font-weight:700;width:30px;height:30px;border-radius:50%;border:0;background:var(--lime);color:#10301f;cursor:pointer}
+.qty span{min-width:22px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);padding-block:20px}
+.note{font-size:14px;color:var(--muted);margin-top:16px}
+
+/* ubicación */
+.loc{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}
+.loc-card{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,36px);min-width:0}
+.loc-card address{font-style:normal;font-size:22px;font-weight:700;margin-top:14px}
+.loc-card .coords{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px;margin-top:6px}
+.loc-card .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.map{border-radius:24px;overflow:hidden;border:2px solid var(--forest);background:var(--forest);min-height:260px;position:relative;text-decoration:none;display:block}
+.map svg{width:100%;height:100%;display:block;position:absolute;inset:0}
+.map span{position:absolute;left:16px;bottom:14px;background:var(--lime);color:#10301f;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;border:2px solid #0f3d2a}
+
+/* pedido */
+.order{background:var(--surface);border:2px solid var(--line);border-radius:28px;padding:clamp(20px,4vw,44px);display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.cart{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+.cart li{display:flex;align-items:center;gap:10px;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}
+.cart .nm{min-width:0;flex:1}
+.cart .nm small{display:block;color:var(--muted);font-size:13px}
+.cart .opts{margin-top:8px;padding:8px 10px;max-width:360px}
+.cart .opts .opt{font-size:14px}
+.total{display:flex;justify-content:space-between;font-size:20px;font-weight:700;margin-top:14px}
+form{display:grid;gap:12px;min-width:0;align-content:start}
+label{font-weight:700;font-size:14px;display:grid;gap:5px}
+input,select,textarea{font:inherit;padding:11px 14px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--fg);width:100%}
+textarea{min-height:76px;resize:vertical}
+.warn{color:#b3261e;font-weight:700;font-size:14px;margin:0}
+.contact{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;font-variant-numeric:tabular-nums}
+.copy{font:inherit;font-size:13px;font-weight:700;padding:4px 12px;border-radius:999px;border:2px solid var(--line);background:transparent;color:var(--fg);cursor:pointer}
+
+footer{padding-block:32px 150px;text-align:center;color:var(--muted);font-size:14px}
+
+/* barra de estado fija */
+.status{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--forest);color:var(--on-forest);border-top:3px solid var(--lime);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.status-in{max-width:1080px;margin-inline:auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.st-main{flex:1 1 260px;min-width:0}
+.st-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.st-label{font-weight:700;font-size:16px}
+.st-sub{font-size:13px;color:var(--soft-on-forest)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--lime);flex:none;align-self:center;box-shadow:0 0 0 0 rgba(185,226,58,.7);animation:pulse 1.8s infinite}
+.dot.idle{background:#7fa58c;animation:none}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(185,226,58,0)}100%{box-shadow:0 0 0 0 rgba(185,226,58,0)}}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px}
+.steps i{height:6px;border-radius:3px;background:rgba(255,255,255,.18);position:relative;overflow:hidden}
+.steps i b{position:absolute;inset:0;width:0;background:var(--lime);transition:width .6s}
+.steps-names{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px;font-size:11px;letter-spacing:.04em;color:var(--soft-on-forest)}
+.steps-names span.on{color:var(--lime);font-weight:700}
+.eta{font-family:var(--font-display);font-size:24px;line-height:1;color:var(--lime);text-align:right}
+.idle-warn{flex-basis:100%;background:var(--lime);color:#10301f;font-weight:700;font-size:14px;border-radius:10px;padding:6px 12px}
+.eta small{display:block;font-family:var(--font-body);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft-on-forest);margin-top:3px}
+.st-actions{display:flex;gap:8px}
+.st-actions .btn{padding:8px 14px;font-size:14px}
+.st-actions .btn.ghost{color:var(--on-forest);border-color:rgba(255,255,255,.5)}
+
+@media (max-width:760px){
+  .hero,.order,.loc{grid-template-columns:1fr}
+  .sizes{grid-template-columns:1fr}
+  .badge{width:min(70%,240px)}
+  nav a.hide-s{display:none}
+  .steps-names{font-size:10px}.eta{font-size:22px}
+}
+@media (prefers-reduced-motion:reduce){.spin,.strip span,.dot{animation:none}.btn:hover{transform:none}.steps i b{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <a class="brand" href="#inicio" aria-label="Qué Sabor Macarena, inicio">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#0f3d2a"/><path d="M50 18c-16 6-22 20-18 34 10-2 18-10 18-34z" fill="#b9e23a"/><path d="M50 82c16-6 22-20 18-34-10 2-18 10-18 34z" fill="#1f8a4c"/><circle cx="50" cy="50" r="6" fill="#f1f8ee"/></svg>
+      <span>Qué Sabor<br>Macarena</span>
+    </a>
+    <nav>
+      <a class="hide-s" href="#salvajadas">Salvajadas</a>
+      <a href="#menu">Menú</a>
+      <a href="#bebidas">Bebidas</a>
+      <a class="hide-s" href="#ubicacion">Ubicación</a>
+      <a class="btn" href="#pedido">Hacer pedido</a>
+    </nav>
+  </header>
+
+  <div class="hero" id="inicio">
+    <div>
+      <div class="eyebrow" style="color:var(--lime)">Comida rápida en Barranquilla</div>
+      <h1>Qué sabor, <em>Macarena.</em></h1>
+      <p>Salvajadas para compartir, salchipapas, hamburguesas, perros, pizzas y parrilla. Arma tu pedido aquí y lo recibes por WhatsApp.</p>
+      <div class="cta">
+        <a class="btn" href="#menu">Ver el menú</a>
+        <a class="btn ghost" href="#ubicacion">Cómo llegar</a>
+      </div>
+      <div class="where">Calle 53, barrio La Sierra · Recoger ~15 min · Domicilio ~30 min</div>
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 300 300" role="img" aria-label="Sello Qué Sabor Macarena">
+        <defs><path id="circ" d="M150,150 m-112,0 a112,112 0 1,1 224,0 a112,112 0 1,1 -224,0"/></defs>
+        <circle cx="150" cy="150" r="146" fill="#b9e23a"/>
+        <circle cx="150" cy="150" r="92" fill="#1f8a4c"/>
+        <g class="spin"><text font-family="Bowlby One, Arial Black, sans-serif" font-size="20" fill="#0f3d2a" letter-spacing="3"><textPath href="#circ">QUÉ SABOR MACARENA · COMIDA RÁPIDA · QUÉ SABOR ·</textPath></text></g>
+        <path d="M150 88c-24 10-34 32-28 54 16-4 28-16 28-54z" fill="#f1f8ee"/>
+        <path d="M150 212c24-10 34-32 28-54-16 4-28 16-28 54z" fill="#0f3d2a"/>
+        <circle cx="150" cy="150" r="9" fill="#b9e23a"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip" aria-hidden="true">
+    <span>SALVAJADAS ✦ SALCHIPAPAS ✦ HAMBURGUESAS ✦ PERROS ✦ PIZZAS ✦ MAZORCAS ✦ PINCHOS ✦ GRILL ✦ </span>
+    <span>SALVAJADAS ✦ SALCHIPAPAS ✦ HAMBURGUESAS ✦ PERROS ✦ PIZZAS ✦ MAZORCAS ✦ PINCHOS ✦ GRILL ✦ </span>
+  </div>
+
+  <section id="salvajadas" style="padding-top:12px">
+    <div class="eyebrow">La de la casa</div>
+    <h2>Salvajadas para compartir</h2>
+    <p class="lead">Papa francesa con carnes asadas, salteadas en nuestro chimichurri, con lechuga fresca, papita chongo, queso costeño y salsas. Escoge el tamaño según cuántos son.</p>
+    <div class="sizes" id="sizes"></div>
+  </section>
+
+  <section id="menu">
+    <div class="eyebrow">Menú</div>
+    <h2>Escoge tu antojo</h2>
+    <div class="menu-tools">
+      <input id="buscar" type="search" placeholder="Buscar: pollo, suiza, pizza, coca cola…" aria-label="Buscar en el menú y bebidas">
+    </div>
+    <div class="tabs" role="tablist" aria-label="Categorías del menú" id="tabs"></div>
+    <div class="items" id="items" role="tabpanel"></div>
+    <p class="note">Precios en pesos colombianos para recoger en la sede. El domicilio puede tener un costo adicional que te confirmamos por WhatsApp.</p>
+  </section>
+
+  <section id="bebidas" style="padding-top:0">
+    <div class="eyebrow">Para acompañar</div>
+    <h2>Bebidas</h2>
+    <p class="lead">Gaseosas, jugos naturales, frappés y cervezas frías.</p>
+    <div class="tabs" role="tablist" aria-label="Tipos de bebida" id="dtabs"></div>
+    <div class="items" id="ditems" role="tabpanel"></div>
+  </section>
+
+  <section id="ubicacion" style="padding-top:0">
+    <div class="loc">
+      <div class="loc-card">
+        <div class="eyebrow">Ubicación</div>
+        <h2>Aquí nos encuentras</h2>
+        <address>Calle 53, barrio La Sierra<br>Barranquilla, Atlántico</address>
+        <div class="coords">10.9528° N, 74.8064° O</div>
+        <div class="cta">
+          <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=10.9528218,-74.8064377" target="_blank" rel="noopener">Cómo llegar</a>
+          <a class="btn ghost" href="https://www.google.com/maps/place/Que+Sabor+Macarena/@10.9528218,-74.8064377,18z" target="_blank" rel="noopener">Ver en Google Maps</a>
+        </div>
+      </div>
+      <a class="map" href="https://www.google.com/maps/place/Que+Sabor+Macarena/@10.9528218,-74.8064377,18z" target="_blank" rel="noopener" aria-label="Abrir la ubicación en Google Maps">
+        <svg viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="280" fill="#0f3d2a"/>
+          <g stroke="#1f5c3d" stroke-width="3" fill="none">
+            <path d="M-10 60 L410 40"/><path d="M-10 210 L410 190"/><path d="M60 -10 L90 290"/><path d="M300 -10 L330 290"/><path d="M180 -10 L200 290"/>
+          </g>
+          <path d="M-10 132 L410 118" stroke="#b9e23a" stroke-width="10" fill="none" stroke-opacity=".85"/>
+          <text x="24" y="116" font-family="Figtree, sans-serif" font-weight="700" font-size="14" fill="#b9e23a">CALLE 53</text>
+          <text x="250" y="238" font-family="Figtree, sans-serif" font-weight="700" font-size="13" fill="#7fa58c" letter-spacing="2">LA SIERRA</text>
+          <g transform="translate(212 126)">
+            <circle r="30" fill="#b9e23a" fill-opacity=".25"/>
+            <path d="M0 0 C-16 -18 -20 -30 -20 -38 A20 20 0 1 1 20 -38 C20 -30 16 -18 0 0Z" fill="#b9e23a" stroke="#0f3d2a" stroke-width="3"/>
+            <circle cy="-38" r="7" fill="#0f3d2a"/>
+          </g>
+        </svg>
+        <span>Abrir en Google Maps</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="pedido">
+    <div class="order">
+      <div>
+        <div class="eyebrow">Tu pedido</div>
+        <h2>Pide hoy, come ya</h2>
+        <ul class="cart" id="cart"></ul>
+        <div class="total"><span>Total</span><span class="price" id="total">$0</span></div>
+        <p class="note">Te confirmamos el pedido y el valor final por WhatsApp.</p>
+        <div class="contact">WhatsApp: <span id="num">+57 302 355 9689</span><button class="copy" type="button" id="copybtn">Copiar</button></div>
+      </div>
+      <form id="orderform">
+        <label for="nombre">Tu nombre<input id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Laura"></label>
+        <label for="tipo">Cómo lo recibes
+          <select id="tipo" name="tipo"><option value="recoger">Para recoger en la sede (~15 min)</option><option value="domicilio">A domicilio (~30 min)</option></select>
+        </label>
+        <label for="direccion" id="dirwrap" hidden>Dirección de entrega<input id="direccion" name="direccion" autocomplete="street-address" placeholder="Calle, número, barrio"></label>
+        <label for="nota">Notas<textarea id="nota" name="nota" placeholder="Sin cebolla, salsas aparte, forma de pago…"></textarea></label>
+        <p class="warn" id="warn" hidden>Agrega al menos un producto del menú antes de enviar.</p>
+        <a class="btn" id="sendlink" href="https://wa.me/573023559689" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
+        <p class="note" style="margin:0">Al enviarlo, la barra de abajo sigue tu pedido con el tiempo estimado.</p>
+      </form>
+    </div>
+  </section>
+
+  <footer>© Qué Sabor Macarena · Calle 53, La Sierra, Barranquilla</footer>
+</div>
+
+<div class="status" id="status" role="status" aria-live="polite">
+  <div class="status-in">
+    <span class="dot idle" id="stdot"></span>
+    <div class="st-main">
+      <div class="st-top"><span class="st-label" id="stlabel">Sin pedido activo</span><span class="st-sub" id="stsub">Hoy: recoger ~15 min · domicilio ~30 min</span></div>
+      <div class="steps" id="stbars"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      <div class="steps-names" id="stnames"><span>Enviado</span><span>Preparando</span><span id="stname3">En camino</span><span>Entregado</span></div>
+    </div>
+    <div class="eta" id="steta" hidden>~15 min<small>tiempo estimado</small></div>
+    <div class="st-actions">
+      <a class="btn" id="storder" href="#menu">Pedir ahora</a>
+      <button class="btn ghost" type="button" id="stclear" hidden>Cerrar</button>
+    </div>
+    <div class="idle-warn" id="idlewarn" hidden>Si no envías tu pedido, la página se reiniciará en 1 minuto y se vaciará el carrito.</div>
+  </div>
+</div>
+
+<script>
+/* Menú y bebidas: [nombre, descripción, precio, subcategoría, foto] por categoría */
+var MENU={"Grill Macarena":[["1/2 carne","250 gramos de carne magra asada, acompañada con papa francesa, bollo, patacón o yuca frita de acuerdo a la elección del cliente y ensalada.",20500,"",402],["1/2 lomo de cerdo","250 gramos lomo de cerdo asado, acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",20500,"",0],["1/2 pechuga","230 gramos filete de pechuga asada, acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",20500,"",406],["Lomo de cerdo","300 gramos lomo de cerdo asado, acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",33000,"",0],["Pechuga a la plancha","300 gramos filete de pechuga asada, acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",33000,"",417],["Punta gorda","330 gramos de jugosa carne punta gorda asada, acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",40000,"",0],["Costillitas BBQ","500 gramos costilla de cerdo bañada en salsa BBQ , acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",38000,"",408],["Parrillada mixta","150 gr carne, 150 gr pechuga, 1 chorizo y 1 butifarra asada, acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",35000,"",411],["Parrillada trifásica","150 gr carne, 150 gr lomo de cerdo, 150 gr pechuga, 1 chorizo y 1 butifarra, acompañada con papa francesa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",41000,"",413],["Parrillada Macarena","150 gr carne, 150 gr lomo de cerdo, 150 gr pechuga, 200 gr costilla de cerdo bañada en salsa BBQ, 1 chorizo, 1 butifarra, acompañada con papa francesa como base, y una porción adicional de papa, bollo, patacón O yuca frita de acuerdo a la elección del cliente y ensalada",50000,"",0],["Picada Macarena 48","150 gr carne, 150 gr lomo de cerdo, 150 gr pechuga, 4 chorizos ,todo asado y picado con una base de lechuga, papa francesa y bollo con nuestras salsas.",48000,"",419],["Picada Macarena 63","250 gr carne, 250 gr lomo de cerdo, 200 gr pechuga, 6 chorizos, todo asado y picado, en una base de lechuga, papa francesa y bollo, con nuestras salsas",63000,"",420],["Picada Macarena 90","330 gr punta gorda, 330 gr lomo de cerdo, 300 gr pechuga , 8 chorizos, todo asado y picado en una base de lechuga, papa francesa y bollo, con nuestras salsas.",90000,"",421]],"Hamburguesas":[["Hamburguesa sencilla","Pan finas hiervas, 150 gr de carne molida, doble queso mozarella, vegetales frescos.",19000,"",429],["Hamburguesa especial","Pan finas hiervas, 150 gr carne , doble mozarella, jamon, tocineta, vegetales frescos.",22000,"",427],["Hamburguesa La Coleta","Carne de la casa, queso asado, pepinillos en almíbar, lechuga rizada y salsa de la casa.",26000,"",1437],["La Sinvergüenza","Carne, huevo frito, jamón, tocineta,\ncheddar, mozarella, papita chongo,\nverduras y una porción de papas como\nacompañamiento)",30000,"",0],["Hamburguesa La Patrona","Deliciosa hamburguesa con carne , lechuga, tomate, cebolla, queso mozzarella, jamón, queso cheddar, chorizo, tocineta, aros de cebolla y una porción de papas francesa o casco de acompañamiento según elección.",31000,"",761],["Burguer Macarena","Pan finas hiervas, 150 gr carne, pollo desmechado, jamon, tocineta, mozarella, cheddar, 2 chorizos bañados en salsa BBQ, vegetales frescos.",30000,"",426],["Burguer Pechichona","Una torre de sabor. Pan finas hiervas, doble carne de 150 gr , pollo desmechado, verduras grille, lechuga rizada, jamon, cheddar, bañada en queso mozarella, tocineta y maiz, acompañada con papa.",40000,"",425]],"Perros":[["Perro sencillo","Pan de mantequilla, lechuga fresca, salchicha, papita chongo, queso costeño, salsa tártara y piña",6500,"",482],["Perro sencillo plancha","pan de mantequilla, lechuga fresca, salchicha,papa chongo, queso costeño, salsa tartara y piña.",7000,"",483],["Perro mozarella","Pan de mantequilla, lechuga fresca, salchicha, papa chongo, queso costeño, queso mozarella, salsa tartara y piña .",8000,"",480],["Perro Gemelo","Pan de mantequilla, doble lechuga , doble salchicha, doble papa chongo, doble queso costeño, salsa tartara y piña .",10000,"",0],["Perro Medio Suizo","Pan de mantequilla, lechuga fresca, media salchicha suiza, papa chongo, queso costeño, mozarella, salsa tartara y piña.",14500,"",0],["Perro Suizo","Pan de mantequilla, lechuga fresca, salchicha suiza, papa chongo, queso costeño, mozarella, salsa tartara y piña.",18000,"",484],["Perro Ranchero","Pan de mantequilla, lechuga fresca, salchicha ranchera, papa chongo, queso costeño, mozarella, salsa tartara y piña.",18000,"",0],["Polliperro","Pan de mantequilla, lechuga fresca, salchicha, pollo picado, papa chongo, queso costeño, mozarella, salsa tartara y piña.",18500,"",0],["Perro Granjero","Pan de mantequilla, lechuga fresca, salchicha, maiz, cebolla, champiñon, papa chongo, queso costeño, mozarella, salsa tartara y piña.",13000,"",475],["Perro Currambero","Pan de mantequilla, lechuga fresca, salchicha, chorizo, butifarra, cebolla, papa chongo, queso costeño, mozarella, salsa tartara y piña.",16000,"",471],["Perro Grosero","Pan de mantequilla, lechuga fresca, super salchicha, tocineta, papa chongo, queso costeño, mozarella, salsa tartara y piña.",16000,"",476],["Perro Charro","Pan de mantequilla, lechuga fresca, salchicha ranchera, chimichurri, tocineta, papa chongo, queso costeño, mozarella, salsa tartara y piña.",18500,"",470],["Perro Poi","Pan de mantequilla, lechuga fresca, salchicha ranchera, jamon, tocineta, piña en trocitos, papa chongo, queso costeño, mozarella, salsa tartara y piña.",19000,"",486],["Perro Especial","Pan de mantequilla, lechuga fresca, carne picada, pollo picado, chorizo, butifarra, papa chongo, queso costeño, mozarella, salsa tártara y piña.",22000,"",0],["Perro Cazador","Pan de mantequilla, lechuga fresca, salchicha, pollo desmechado, jamon, tocineta, papa chongo, queso costeño, mozarella, salsa tartara y piña.",19500,"",469],["Perro Escoces","Pan de mantequilla, lechuga fresca, salchicha suiza, pollo desmechado, maíz, papa chongo, queso costeño, mozarella, salsa tartara y piña.",23000,"",0],["Perro azañoso","Pan de mantequilla, lechuga fesca, salchicha suiza, tocineta , salami, peperoni, papa chongo, queso costeño, mozarella, cheddar, salsa tartara y piña.",24000,"",468],["Perro Estrato 8","Pan de mantequilla, lechuga fresca, salchicha suiza, pollo desmechado, jamon, tocineta, papa chongo, queso costeño, mozarella, salsa tartara y piña.",24000,"",474],["Perro Transmetro","Pan de mantequilla de 40 cm, lechuga fresca, super salchicha, jamon, tocineta, papa chongo, queso costeño, mozarella, salsa tartara y piña, acompañado de papa francesa",33000,"",0],["Perro Kamikase","Pan mantequilla de 40 cm, lechuga fresca, doble salchicha suiza, pollo desmechado, jamon, chorizo, papa chongo, queso costeño, mozarella, salsa tartara y piña.",36000,"",477],["Perro Salvaje","Pan mantequilla de 40 cm, lechuga fresca, carne picada, pollo picado, chorizo, butifarra, tocineta, papa chongo, queso costeño, mozarella, salsa tartara y piña.",36000,"",488]],"Taco Pizza":[["Taco pizza personal carne y pollo","Carne y pollo picados, asados con verdura grillé, envueltos en crocante masa de pizza, horneado, relleno de queso mozarella, acompañado de papa francesa.",24000,"Taco Personal",0],["Taco pizza personal especial","Carne, pollo, chorizo y butifarra asados con verduras grillé, envueltos en crocante masa de pizza, horneado y con relleno de queso mozarella , acompañado de papa francesa .",25000,"Taco Personal",0],["Taco pizza super especial personal","Carne, pollo, chorizo y butifarra asados con verdura grillé, envueltos en crocante masa de pizza, horneado y bañado en queso mozarella, acompañado de papa francesa.",29000,"Taco Personal",0],["Taco pizza small carne y pollo. 5 porciones","Carne y pollo picados, asados con verdura grillé, envueltos en crocante masa de pizza, horneado, relleno de queso mozarella, acompañado de papa francesa.",35500,"Taco Small",0],["Taco pizza small especial.5 porciones","Carne, pollo, chorizo y butifarra asados con verduras grillé, envueltos en crocante masa de pizza, horneado y con relleno de queso mozarella , acompañado de papa francesa .",38000,"Taco Small",0],["Taco pizza small super especial. 5 pociones","Carne, pollo, chorizo y butifarra asados con verdura grillé, envueltos en crocante masa de pizza, horneado y bañado en queso mozarella, acompañado de papa francesa.",42000,"Taco Small",635]],"Pizza":[["Pizza personal jamon. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y jamon.",18000,"Personal",519],["Pizza personal pepperoni. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y peperoni.",18000,"Personal",0],["Pizza personal salami. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y salami.",18000,"Personal",0],["Pizza personal pollo. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y pollo.",18000,"Personal",0],["Pizza personal vegetariana. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon y pimenton.",18000,"Personal",528],["Pizza personal ajo. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y ajo picado",18000,"Personal",0],["Pizza personal hawaiana. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon y piña en trocitos.",18000,"Personal",518],["pizza personal vegetariana,pollo. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon, pimenton y pollo.",21000,"Personal",529],["Pizza personal capricciosa. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni, pollo, cebolla, pimenton y champiñon.",21000,"Personal",516],["Pizza personal quatro carní. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni y pollo.",21000,"Personal",524],["Pizza personal tropicale. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, piña trocitos y cereza.",21000,"Personal",527],["Pizza personal marinara.6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, ajo y oregano",21000,"Personal",0],["Pizza personal boscaiola. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, tocineta y oregano.",21000,"Personal",0],["Pizza personal squisita. 6 pociones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, pollo, champiñón y tocineta..",21000,"Personal",0],["Pizza personal amore. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, pollo, salami, tocineta, pimenton y queso cheddar rayado.",21000,"Personal",514],["Pizza perro personal.6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, papa chongo, salsa tartara y piña mas queso costeño rayado.",21000,"Personal",0],["Pizza personal mera mera.6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, tocineta y jalapeños.",21000,"Personal",521],["Pizza personal 6 porciones, La Quesuda","Deliciosa pizza de 6 porciones con Queso azul, Queso Cheddar, Queso Parmessano y Mozarella",21000,"Personal",0],["Pizza personal carnavale. 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, chorizo, butifarra, pimenton, cebolla y queso costeño rayado.",21000,"Personal",517],["Pizza Personal Dulce Vita.6 Porciones","Aceitunas, maiz, cebolla roja,\ntomate cherry, tocineta y albahaca",24000,"Personal",0],["Pizza personal champiñones, 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y champiñones",18000,"Personal",0],["Pizza personal bocadillo, 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y bocadillo.",18000,"Personal",0],["Pizza personal chorizo, 6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, y chorizo.",18000,"Personal",0],["Pizza jamón-pollo personal.6 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, jamón y pollo.",21000,"Personal",0],["Pizza small jamon 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella y jamon.",30000,"Small",536],["Pizza small peperoni. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella y peperoni.",30000,"Small",0],["Pizza small salami. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella y salami.",30000,"Small",0],["Pizza small pollo. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella y pollo.",30000,"Small",0],["Pizza small vegetariana. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon y pimenton.",30000,"Small",546],["Pizza small ajo. 8 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella y ajo picado",30000,"Small",0],["Pizza small hawaiana. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon y piña en trocitos.",30000,"Small",535],["Pizza small vegetariana, pollo. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon, pimenton y pollo.",36000,"Small",547],["Pizza small capricciosa. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni, pollo, cebolla, pimenton y champiñon.",36000,"Small",533],["Pizza small quatro carni. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni y pollo.",36000,"Small",542],["Pizza small tropicale. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, piña trocitos y cereza.",36000,"Small",545],["Pizza small marinara. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, ajo y oregano",36000,"Small",0],["Pizza small boscaiola. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, tocineta y oregano.",36000,"Small",0],["Pizza small squisita. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, poillo, champiñon y tocinetal.",36000,"Small",0],["Pizza small amore. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, pollo, salami, tocineta, pimenton y queso cheddar rayado.",36000,"Small",531],["Pizza small pizzaperro. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, papa chongo, salsa tartara y piña mas queso costeño rayado.",36000,"Small",0],["Pizza small mera mera. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, tocineta y jalapeños.",36000,"Small",538],["Pizza small 8 porciones, La Quesuda","Deliciosa pizza de 8 porciones con Queso azul, Queso Cheddar, Queso Parmessano y Mozarella",36000,"Small",0],["Pizza small carnavale. 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, chorizo, butifarra, pimenton, cebolla y queso costeño rayado.",36000,"Small",534],["Pizza Small Dulce Vita. 8 Porciones","Aceitunas, maiz, cebolla roja,\nt omate cherry, tocineta y albahaca",40000,"Small",0],["Pizza small bocadillo, 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, y bocadillo.",30000,"Small",0],["Pizza small champiñones, 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, y champiñones.",30000,"Small",0],["Pizza small chorizo, 8 porciones","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, y bocadillo.",30000,"Small",0],["Pizza small jamón-pollo. 8 porciones","Circunferencia de 22 cm, relleno con nuestra salsa napolitana, queso mozarella, jamón y pollo.",36000,"Small",0],["Pizza large 12 porciones, jamon","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y jamon.",52000,"Large",500],["Pizza large 12 porciones,peperoni","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y peperoni.",52000,"Large",0],["Pizza large 12 porciones, salami","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y salami.",52000,"Large",0],["Pizza large 12 porciones, pollo","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y pollo.",52000,"Large",0],["Pizza large 12 porciones, vegetariana","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon y pimenton.",52000,"Large",510],["Pizza large 12 porciones, ajo","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y ajo picado",52000,"Large",0],["Pizza large 12 porciones, hawaiana","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon y piña en trocitos.",52000,"Large",499],["Pizza large 12 porciones, vegetariana,pollo","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon, pimenton y pollo.",60000,"Large",511],["Pizza large 12 porciones, capricciosa","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni, pollo, cebolla, pimenton y champiñon.",60000,"Large",497],["Pizza large 12 porciones, quatro carni","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni y pollo.",60000,"Large",506],["Pizza large 12 porciones, tropicale","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, piña trocitos y cereza.",60000,"Large",509],["Pizza large 12 porciones, marinara","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, ajo y oregano",60000,"Large",0],["Pizza large 12 porciones, boscaiola","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, tocineta y oregano.",60000,"Large",0],["Pizza large 12 porciones, squisita","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, pollo, champiñón y tocineta",60000,"Large",0],["Pizza large 12 porciones, amore","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, pollo, salami, tocineta, pimenton y queso cheddar rayado.",60000,"Large",495],["Pizza large 12 porciones, pizzaperro","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, papa chongo, salsa tartara y piña mas queso costeño rayado.",60000,"Large",0],["Pizza large 12 porciones, mera mera","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, tocineta y jalapeños.",60000,"Large",502],["Pizza Large 12 porciones, La Quesuda","Deliciosa pizza de 12 porciones con Queso azul, Queso Cheddar, Queso Parmessano y Mozarella",60000,"Large",0],["Pizza large 12 porciones, carnavale","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella, chorizo, butifarra, pimenton, cebolla y queso costeño rayado.",60000,"Large",498],["Pizza Large 12 Porciones, Dulce Vita","Aceitunas, maiz, cebolla roja,\nt omate cherry, tocineta y albahaca",68000,"Large",0],["Pizza large 12 porciones, bocadillo","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y bocadillo.",52000,"Large",0],["Pizza large 12 porciones, champiñon","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y champiñones.",52000,"Large",0],["Pizza Large 12 porciones, chorizo","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella y chorizo.",52000,"Large",0],["Pizza large 12 porciones, jamón-pollo","Circunferencia de 40 cm, relleno con nuestra salsa napolitana, queso mozarella con pollo y jamón.",60000,"Large",0],["Pizza Xlarge 16 porciones, jamon","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella y jamon.",66000,"Xlarge",554],["Pizza Xlarge 16 porciones, peperoni","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella y peperoni.",66000,"Xlarge",0],["Pizza Xlarge 16 porciones, salami","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella y salami.",66000,"Xlarge",0],["Pizza Xlarge 16 porciones, pollo","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella y pollo.",66000,"Xlarge",0],["Pizza Xlarge 16 porciones, vegetariana","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon y pimenton.",66000,"Xlarge",564],["Pizza Xlarge 16 porciones, ajo","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella y ajo picado",66000,"Xlarge",0],["Pizza Xlarge 16 porciones, hawaiana","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon y piña en trocitos.",66000,"Xlarge",553],["Pizza Xlarge 16 porciones, vegetariana,pollo","Circunferencia de 30 cm, relleno con nuestra salsa napolitana, queso mozarella, cebolla, tomate, champiñon, pimenton y pollo.",78000,"Xlarge",565],["Pizza Xlarge 16 porciones, capricciosa","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni, pollo, cebolla, pimenton y champiñon.",78000,"Xlarge",551],["Pizza Xlarge 16 porciones, quatro carni","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, peperoni y pollo.",78000,"Xlarge",560],["Pizza Xlarge 16 porciones, tropicale","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, jamon, salami, piña trocitos y cereza.",78000,"Xlarge",563],["Pizza Xlarge 16 porciones, marinara","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, ajo y oregano",78000,"Xlarge",0],["Pizza Xlarge 16 porciones, boscaiola","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, tocineta y oregano.",78000,"Xlarge",0],["Pizza Xlarge 16 porciones, squisita","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, pollo, champiñon y tocineta.",78000,"Xlarge",0],["Pizza Xlarge 16 porciones, amore","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, pollo, salami, tocineta, pimenton y queso cheddar rayado.",78000,"Xlarge",549],["Pizza Xlarge 16 porciones, pizzaperro","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, salchicha, papa chongo, salsa tartara y piña mas queso costeño rayado.",78000,"Xlarge",0],["Pizza Xlarge 16 porciones, mera mera","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, tomate, tocineta y jalapeños.",78000,"Xlarge",556],["Pizza XLarge 16 porciones, La Quesuda","Deliciosa pizza de 16 porciones con Queso azul, Queso Cheddar, Queso Parmessano y Mozarella",78000,"Xlarge",0],["Pizza Xlarge 16 porciones, carnavale","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, chorizo, butifarra, pimenton, cebolla y queso costeño rayado.",78000,"Xlarge",552],["Pizza Xlarge 16 Porciones, Dulce Vita","Aceitunas, maiz, cebolla roja,\nt omate cherry, tocineta y albahaca",90000,"Xlarge",0],["Pizza Xlarge 16 porciones, champiñones","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, y champiñones.",66000,"Xlarge",0],["Pizza Xlarge 16 porciones, bocadillo","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, y bocadillo.",66000,"Xlarge",0],["Pizza Xlarge 16 porciones, chorizo","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, y chorizo.",66000,"Xlarge",0],["Pizza Xlarge 16 porciones, jamón-pollo","Circunferencia de 50 cm, relleno con nuestra salsa napolitana, queso mozarella, jamón y pollo",78000,"Xlarge",0]],"Salchipapas":[["Salchipapa sencilla","Papa francesa, salchicha manguera, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",17500,"",600],["Salchipapa de pollo","Papa francesa, salchicha manguera, pollo picado asado, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22000,"",597],["Salchipapa de carne","Papa francesa, salchicha manguera, carne picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22000,"",596],["Salchipapa chori-buti","Papa francesa, chorizo y butifarra asados, salteados con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",20500,"",0],["Salchipapa suiza","Papa francesa, salchicha suiza picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22500,"",601],["Salchipapa ranchera","Papa francesa, salchicha super ranchera picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22500,"",0],["Salchipapa suiza carne","Papa francesa, salchicha suiza, carne picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",27000,"",602],["Salchipapa ranchera pollo","Papa francesa, salchicha ranchera, pollo picado asado, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tártara y piña.",27000,"",0],["Salchipapa ranchera carne","Papa francesa, salchicha ranchera, carne picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",27000,"",0],["Salchipapa suiza pollo","Papa francesa, salchicha suiza, pollo picado asado, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",27000,"",603],["Salchipapa carne y pollo","Papa francesa, carne y pollo picado asado, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",24000,"",594],["Salchipapa especial","Papa francesa, carne, pollo, chorizo, butifarra, picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",24000,"",598],["Salchipapa La Golosa","Salchipapa con base de papa (francesa o casco), salchicha ranchera, salchicha suiza, gratinado, maíz y tocineta salteada con grillé, además de nuestras deliciosas salsas tártara y piña.",28000,"",766]],"Salvajadas":[["Salvajada de Pollo 2-3 personas","Papa francesa y pollo picado salteado con nuestra deliciosa chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tártara y piña.",38000,"2 3 Personas",0],["Salvajada Carne y Pollo 2-3 personas","Papa francesa, carne y pollo asados, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tártara y piña.",38000,"2 3 Personas",0],["Salvajada Especial 2-3 personas","Papa francesa, carne, pollo, chorizo y butifarra asados , salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",38000,"2 3 Personas",607],["Salvajada Especial 2-3 personas - sin carne","Papa francesa, pollo, chorizo y butifarra asados , salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",38000,"2 3 Personas",0],["Salvajada La Intelectual 2-3 personas","Papa francesa, salchicha suiza, ranchera y manguera, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, y queso cheddar rayado.",43000,"2 3 Personas",613],["Salvajada La Del Barrio 2-3 personas","Papa francesa, carne, pollo y salchicha suiza asados, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tártara y piña. Gratinada, maíz y tocineta.",48000,"2 3 Personas",610],["Salvajada Corroncha 2-3 personas","Papa francesa, carne, pollo, chorizo y butifarra asados con verdura grillé, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada y monedas de platano.",48000,"2 3 Personas",604],["Salvajada Sin Mente 2-3 personas","Papa francesa, salchicha suiza, ranchera, pollo, carne, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tártara y piña. Gratinada, bollo, salami, pepperoni.",51000,"2 3 Personas",1435],["Salvajada Macarena Salvaje 2-3 personas","Papa francesa, carne, pollo, chorizo y butifarra asados con grillé, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tártara y piña. Gratinada, costillas BBQ y tocineta.",60000,"2 3 Personas",619],["Salvajada de Pollo 4-5 personas","Papa francesa y pollo picado salteado con nuestra deliciosa chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tártara y piña.",67000,"4 5 Personas",0],["Salvajada Carne y Pollo 4-5 personas","Papa francesa, carne y pollo asados, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tártara y piña.",67000,"4 5 Personas",0],["Salvajada Especial 4-5 personas","Papa francesa, carne, pollo, chorizo y butifarra asados , salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",67000,"4 5 Personas",608],["Salvajada Especial 4-5 personas - sin carne","Papa francesa, pollo, chorizo y butifarra asados , salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",67000,"4 5 Personas",0],["Salvajada La Intelectual 4-5 personas","Papa francesa, salchicha suiza, ranchera y manguera, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, y queso cheddar rayado.",77000,"4 5 Personas",614],["Salvajada La Del Barrio 4-5 personas","Papa francesa, carne, pollo y salchicha suiza asados, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, maiz y tocineta.",86000,"4 5 Personas",611],["Salvajada Corroncha 4-5 personas","Papa francesa, carne, pollo, chorizo y butifarra asados con verdura grillé, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada y monedas de platano.",86000,"4 5 Personas",605],["Salvajada Sin Mente 4-5 personas","Papa francesa, salchicha suiza, ranchera, pollo, carne, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tártara y piña. Gratinada, bollo, salami, pepperoni.",90000,"4 5 Personas",1436],["Salvajada Macarena Salvaje 4-5 personas","Papa francesa, carne, pollo, chorizo y butifarra asados con grillé, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, costillas BBQ y tocineta.",110000,"4 5 Personas",620],["Salvajada de Pollo 6-7 personas","Papa francesa y pollo picado salteado con nuestra deliciosa chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tártara y piña.",102000,"6 7 Personas",0],["Salvajada Carne y Pollo 6-7 personas","Papa francesa, carne y pollo asados, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tártara y piña.",102000,"6 7 Personas",0],["Salvajada Especial 6-7 personas","Papa francesa, carne, pollo, chorizo y butifarra asados , salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",102000,"6 7 Personas",609],["Salvajada Especial 6-7 personas - sin carne","Papa francesa, pollo, chorizo y butifarra asados , salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",102000,"6 7 Personas",0],["Salvajada La Intelectual 6-7 personas","Papa francesa, salchicha suiza, ranchera y manguera, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, y queso cheddar rayado.",126000,"6 7 Personas",681],["Salvajada La Del Barrio 6-7 personas","Papa francesa, carne, pollo y salchicha suiza asados, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, maiz y tocineta.",143000,"6 7 Personas",680],["Salvajada Corroncha 6-7 personas","Papa francesa, carne, pollo, chorizo y butifarra asados con verdura grillé, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada y monedas de platano.",143000,"6 7 Personas",679],["Salvajada Sin Mente 6-7 personas","Papa francesa, salchicha suiza, ranchera, pollo, carne,  salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, bollo, salami, pepperoni.",143000,"6 7 Personas",682],["Salvajada Macarena Salvaje 6-7 personas","Papa francesa, carne, pollo, chorizo y butifarra asados con grillé, salteados con nuestra chimichurri , lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada, costillas BBQ y tocineta.",178000,"6 7 Personas",683]],"Sandwich":[["Sandwich Jamón","Pan finas hiervas, lechuga rizada, tomate, cebolla, queso mozarella, jamón.",16000,"",0],["Sandwich Puerco","Pan finas hiervas, lechuga rizada, tomate, cebolla, queso mozarella, jamón, tocineta, cheddar.",18500,"",0],["Sandwich Pollo","Pan finas hiervas, lechuga rizada, tomate, cebolla, queso mozarella, jamón y pollo.",22000,"",0],["Sandwich Callejero","Pan finas hiervas, lechuga rizada, tomate, cebolla, carne y pollo picado. Gratinado mas maiz y tocineta.",23000,"",622],["Sandwich Corroncho","Pan finas hiervas, lechuga rizada, tomate, cebolla, chorizo, butifarra, tocineta, queso costeño, mozzarella.",20000,"",0],["Sandwich Carnivoro","Pan finas hiervas, lechuga rizada, tomate, cebolla, jamon, carne picada, pollo desmechado, tocineta, cheddar, mozarella.",22000,"",623],["Sandwich Bandido","Cerdo asado, pepinillos, mozarella,\nverduras frescas, jamón, tocineta",23000,"",0],["Macarena Sandwich","Pan finas hiervas 40 cm, lechuga rizada, tomate, cebolla, jamon. Carne y pollo asados con verdura grillé. Gratinado y tocineta.",33000,"",628]],"Mazorcas":[["Mazorca de pollo","Maiz tierno, pollo picado asado, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22000,"",451],["Mazorca de carne","Maiz tierno, carne picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22000,"",449],["Mazorca Chori-Buti","Maiz tierno, butifarra y chorizo picado asado, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",20500,"",0],["Mazorca suiza","Maiz tierno, salchicha suiza picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22500,"",457],["Mazorca ranchera","Maiz tierno, salchicha ranchera picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22500,"",454],["Mazorca suiza pollo","Maiz tierno, salchicha suiza y pollo picado asado, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",27000,"",458],["Mazorca ranchera pollo","Maiz tierno, salchicha ranchera y pollo picado asado, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",27000,"",455],["Mazorca suiza carne","",27000,"",0],["Mazorca carne y pollo","Maiz tierno, pollo y carne picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",24000,"",447],["Mazorca especial","Maiz tierno, carne, pollo, chorizo y butifarra picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",24000,"",452],["Mazorca Macarena","Maiz tierno, bollo, carne, pollo, chorizo y butifarra picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinada y tocineta.",28500,"",459],["Mazorca Salvaje (2-3 personas)","Carne, pollo, chorizo, butifarra",38000,"",0]],"Pinchos":[["Pincho de pollo","Filete de pechuga en palito, asada, salteada con nuestra chimichurri, acompañado de papa francesa y ensalada.",17500,"",492],["Pincho de carne","Carne en palito, asada, salteada con nuestra chimichurri, acompañado de papa francesa y ensalada.",17500,"",0],["Pincho chori-buti","Chorizo y butifarra en palito, asada, salteada con nuestra chimichurri, acompañado de papa francesa y ensalada.",15000,"",0],["Pincho Macarena","(Viene gratinado) Filete de pechuga y carne en palito, asada, salteada con nuestra chimichurri, acompañado de papa francesa y ensalada.",20000,"",493]],"Desgranados Con Bollo":[["Desgranado de Pollo","Bollo limpio, pollo picado asado, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22000,"",389],["Desgranado Carne","Bollo limpio, carne picada asada, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22000,"",384],["Desgranado suizo","Bollo limpio, salchicha suiza picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22500,"",393],["Desgranado ranchero","Bollo limpio, salchicha ranchera picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",22500,"",392],["Desgranado chori-buti","Bollo limpio, chorizo y butifarra picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",20500,"",386],["Desgranado suizo pollo","Bollo limpio, pollo y salchicha suiza picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",27000,"",394],["Desgranado ranchera pollo","Bollo limpio, pollo y salchicha ranchera picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",27000,"",391],["Desgranado Carne y pollo","Bollo limpio, pollo picado, carne picada asada, salteado con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",24000,"",385],["Desgranado especial","Bollo limpio, carne, pollo, chorizo y butifarra picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",24000,"",390],["Desgranado Macarena","Bollo limpio, carne, pollo, chorizo y butifarra picada asada, salteada con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña. Gratinado, tocineta y maiz.",28500,"",395],["Desgranado Salvaje (2-3 personas)","Bollo limpio, carne, pollo, chorizo y butifarra asados picados, salteados con nuestra chimichurri, lechuga fresca, papa chongo, queso costeño, salsa tartara y piña.",38000,"",0]],"Menú Infantil":[["Pizza mini Jamón","Queso mozarella, jamón.",13000,"",462],["Pizza mini hawaiana","Queso mozarella, jamón y piña.",13000,"",0],["Pizza mini pollo","Queso mozarella y pollo..",13000,"",0],["Salchipapa mini","Papas francesa, media salchicha manguera con salsa tartara y piña.",14500,"",464],["Vaquerito de carne","200 gr de carne asada a la plancha acompañado de papa francesa.",17500,"",0],["Vaquerito de pechuga","180 gr de pechuga asada a la plancha acompañado de papa francesa.",17500,"",0],["Nuggets","Nuggets de pollo acompañado de papas francesa.",14000,"",460],["Salchipollo mini","Papas francesa, media salchicha manguera, pollo picado, con salsa tartara y piña.",16500,"",465]],"Adicionales":[["Porción de ensalada","Ensalada de lechuga fresca, cebolla y tomate con vinagreta.",5000,"",330],["Porción de papa","200 gr de papa francesa con paprica.",7000,"",345],["Papa francesa con queso","200 gr de papa francesa con queso costeño rayado.",8500,"",0],["Papa francesa con queso y chongo","200 gr de papa francesa, papa chongo con queso costeño rayado y salsa.",9000,"",0],["Porción de patacón","4 patacones",8000,"",0],["Porción de maiz","160 gr de maíz tierno.",7000,"",0],["Salsa tartara","40 gr de salsa tartara de la casa",1500,"",0],["Salsa tartara y piña","40 gr de salsa tartara y 30 gr de piña .",2000,"",355],["Porción de bollo","Bollo limpio",3000,"",752],["Porción de yuca","7 croquetas de yuca frita",7500,"",0],["Porción de papa casco","Porción de papa casco",7000,"",0],["Porción de aros de cebolla","Porción de 3 aros de cebolla",3000,"",0],["Gratinado 4-5 Salvajadas","",13000,"",0]]};
+var DRINKS={"Frappés":[["Frappé de coco","Granizado de limon, coco y leche en polvo.",10500,"Domicilios",667],["Frappé de cereza","Granizado de limonada cerezada",10500,"Domicilios",666],["Limonada natural Frappé","Granizado de limon.",9500,"Domicilios",0]],"Jugos Naturales":[["Jugo de corozo","Pulpa de corozo licuada en agua o en leche según la preferencia del cliente.",7000,"Domicilio",0],["Jugo de mandarina","Pulpa de mandarina licuada en agua o en leche según la preferencia del cliente.",7000,"Domicilio",675],["Jugo de mango","Pulpa de mango licuada en agua o en leche según la preferencia del cliente.",7000,"Domicilio",0],["Jugo de fresa","Pulpa de fresa licuada en agua o en leche según la preferencia del cliente.",7000,"Domicilio",672],["Jugo de guanábana","Pulpa de guanábana licuada en agua o en leche según la preferencia del cliente.",7000,"Domicilio",673],["Jugo de lulo","Pulpa de lulo licuada en agua o en leche según la preferencia del cliente.",7000,"Domicilio",674],["Jugo de mora","Pulpa de mora licuada en agua o en leche según la preferencia del cliente.",7000,"Domicilio",0],["Jugo de maracuyá","Pulpa de maracuyá licuada en agua o en leche según la preferencia del cliente.",8500,"Domicilio",677]],"Bebidas":[["Agua manzana mini","Botella de agua de manzana",3000,"Pequeñas",567],["Agua pequeña","Botella de agua pequeña",1500,"Pequeñas",569],["Coca Cola mini","coca cola 250 ml",3000,"Pequeñas",581],["Coca cola mini zero","Coca cola 250 ml zero",3000,"Pequeñas",814],["Agua personal","Botella de agua personal",2500,"Personales",570],["Agua manzana personal","Botella de agua de manzana",4000,"Personales",568],["Coca Cola personal","Coca Cola 400 ml",4000,"Personales",582],["Coca Cola personal Zero","Coca Cola personal Zero",4000,"Personales",735],["Postobón personal colombiana","Postobon 400 ml",4000,"Personales",748],["Postobón personal uva","Postobon 400 ml",4000,"Personales",747],["Quatro 400 ml","Quatro 400 ml",4000,"Personales",589],["Hit personal mango","Botella de jugo hit personal",4000,"Personales",741],["Hit personal mora","Botella de jugo hit personal",4000,"Personales",740],["Hit personal tropical","Botella de jugo hit personal",4000,"Personales",742],["Hit personal piña-naranja","Botella de jugo hit personal",4000,"Personales",586],["Gatorade","Gatorade",5000,"Personales",583],["Ginger 400 ml","Ginger 400 ml",4000,"Personales",584],["Soda 400 ml","soda 400 ml",4000,"Personales",590],["Speed max","Lata de speed max",2500,"Personales",591],["Fuze-tea durazno","Fuzetea durazno",4000,"Personales",592],["Fuze-tea manzanilla","Fuzetea manzanilla",4000,"Personales",593],["Sprite 400ML","",4000,"Personales",812],["Quatro 1.5 lt","Quatro 1.5 lt",10000,"Litro",744],["Coca cola 1.5 lt","Coca cola 1.5 lt",10000,"Litro",579],["Coca cola 1.5 lt Zero","Coca cola 1.5 lt Zero",10000,"Litro",736],["Agua manzana 1.5 lt","Botella de agua de manzana 1.5 Lt",8000,"Litro",566],["Postobon 1.5 lt manzana","Postobon 1.5 lt",10000,"Litro",743],["Postobon 1.5 lt colombiana","Postobon 1.5 lt",10000,"Litro",587],["Hit litro piña-naranja","Caja de jugo hit litro",8000,"Litro",585],["Hit litro mango","Caja de jugo hit litro",8000,"Litro",738],["Hit litro mora","Caja de jugo hit litro",8000,"Litro",737],["Hit litro tropical","Caja de jugo hit litro",8000,"Litro",739],["Coca cola 3 lt","Coca cola 3 lt",15500,"Litro",580],["Cerveza aguila","Lata de cerveza aguila 330 ml.",5000,"Cervezas",571],["Cerveza Aguila Light","Lata de cerveza aguila ligth 269 ml .",5000,"Cervezas",572],["Cerveza budweiser","Cerveza Budweiser 250 ml",5000,"Cervezas",573],["Cerveza coronita","Cerveza Coronita 210 ml",5000,"Cervezas",574],["Cerveza smirnoff Original","cerveza Smirnoff Original 275 ml",11000,"Cervezas",576],["Cerveza smirnoff manzana verde","cerveza Smirnoff manzana verde 275 ml",11000,"Cervezas",577],["Cerveza stella","Cerveza Stella Artois 330 ml",9000,"Cervezas",578]]};
+var WA="573023559689"/*número de pedidos*/,ETA={recoger:15,domicilio:30};
+var IDLE_MS=10*60000;
+/* Adicionales disponibles en todas las salchipapas */
+var EXTRA_CAT="Salchipapas",EXTRAS=[["Papas fritas adicionales",4000],["Gratinado adicional",4000]];
+function $(id){return document.getElementById(id)}
+function money(n){return "$"+n.toLocaleString("es-CO")}
+function store(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v))}catch(x){}}
+function recall(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(x){return null}}
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* índice de productos por clave */
+var ALL={};
+function index(src,pre){Object.keys(src).forEach(function(c){src[c].forEach(function(p,i){p.key=pre+"|"+c+"|"+i;p.cat=c;ALL[p.key]=p})})}
+index(MENU,"m");index(DRINKS,"d");
+function hasExtras(p){return p.cat===EXTRA_CAT}
+
+/* carrito: líneas {k: producto, o: adicionales elegidos, q: cantidad} */
+var cart=(recall("qsm-carrito2")||[]).filter(function(l){return l&&ALL[l.k]&&l.q>0});
+function same(l,k,o){return l.k===k&&l.o.join()===o.join()}
+function saveCart(){store("qsm-carrito2",cart);renderAll()}
+function addLine(k,o,n){
+  var l=cart.filter(function(x){return same(x,k,o)})[0];
+  if(l)l.q+=n;else cart.push({k:k,o:o.slice(),q:n});
+  cart=cart.filter(function(x){return x.q>0});saveCart();
+}
+function unit(l){return ALL[l.k][2]+l.o.reduce(function(s,i){return s+EXTRAS[i][1]},0)}
+function cartCount(){return cart.reduce(function(s,l){return s+l.q},0)}
+function cartTotal(){return cart.reduce(function(s,l){return s+l.q*unit(l)},0)}
+function countOf(k){return cart.reduce(function(s,l){return s+(l.k===k?l.q:0)},0)}
+
+function stepper(k,o,q,label){
+  var w=document.createElement("div");w.className="qty";
+  var m=document.createElement("button");m.type="button";m.textContent="−";m.setAttribute("aria-label","Quitar uno de "+label);m.onclick=function(){addLine(k,o,-1)};
+  var s=document.createElement("span");s.textContent=q;
+  var p=document.createElement("button");p.type="button";p.textContent="+";p.setAttribute("aria-label","Agregar uno de "+label);p.onclick=function(){addLine(k,o,1)};
+  w.appendChild(m);w.appendChild(s);w.appendChild(p);return w;
+}
+function addBtn(label,fn){var a=document.createElement("button");a.type="button";a.className="add";a.textContent="Agregar";a.setAttribute("aria-label","Agregar "+label);a.onclick=fn;return a}
+
+var LEAF='<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 12c-18 7-25 23-20 39 11-2 20-12 20-39z" fill="currentColor"/><path d="M50 88c18-7 25-23 20-39-11 2-20 12-20 39z" fill="currentColor" opacity=".6"/></svg>';
+function pic(p){
+  var d=document.createElement("div");
+  if(p[4]){d.className="pic";var i=document.createElement("img");i.src="img/"+p[4]+".webp";i.alt=p[0];i.loading="lazy";i.decoding="async";d.appendChild(i)}
+  else{d.className="pic none";d.innerHTML=LEAF;var t=document.createElement("span");t.textContent=p.cat;d.appendChild(t)}
+  return d;
+}
+function card(p){
+  var d=document.createElement("div");d.className="item";d.appendChild(pic(p));
+  var b=document.createElement("div");b.className="item-body";d.appendChild(b);
+  var h=document.createElement("h3");h.textContent=p[0];b.appendChild(h);
+  if(p[1]){var t=document.createElement("p");t.textContent=p[1];b.appendChild(t)}
+  var f=document.createElement("div");f.className="item-foot";
+  var pr=document.createElement("span");pr.className="price";pr.textContent=money(p[2]);f.appendChild(pr);
+  if(hasExtras(p)){
+    var box=document.createElement("div");box.className="opts";
+    EXTRAS.forEach(function(x,i){
+      var id="x-"+p.key.replace(/[^a-zA-Z0-9]/g,"_")+"-"+i;
+      var lb=document.createElement("label");lb.className="opt";lb.htmlFor=id;
+      var cb=document.createElement("input");cb.type="checkbox";cb.id=id;cb.value=i;
+      var tx=document.createElement("span");tx.textContent=x[0];
+      var pb=document.createElement("b");pb.textContent="+"+money(x[1]);
+      lb.appendChild(cb);lb.appendChild(tx);lb.appendChild(pb);box.appendChild(lb);
+    });
+    b.appendChild(box);
+    var right=document.createElement("div");right.style.cssText="display:flex;align-items:center;gap:10px";
+    var n=countOf(p.key);
+    if(n){var c=document.createElement("span");c.className="incart";c.textContent=n+" en tu pedido";right.appendChild(c)}
+    right.appendChild(addBtn(p[0],function(){
+      var o=[];box.querySelectorAll("input:checked").forEach(function(cb){o.push(+cb.value)});
+      addLine(p.key,o,1);
+    }));
+    f.appendChild(right);
+  } else {
+    var q=cart.filter(function(l){return same(l,p.key,[])}).reduce(function(s,l){return s+l.q},0);
+    f.appendChild(q?stepper(p.key,[],q,p[0]):addBtn(p[0],function(){addLine(p.key,[],1)}));
+  }
+  b.appendChild(f);return d;
+}
+function fill(box,list,groupOf){
+  box.innerHTML="";var last=null;
+  list.forEach(function(p){
+    var g=groupOf(p);
+    if(g&&g!==last){var h=document.createElement("div");h.className="sub";h.textContent=g;box.appendChild(h)}
+    last=g;box.appendChild(card(p));
+  });
+}
+function makeTabs(box,src,get,set,after){
+  Object.keys(src).forEach(function(c){
+    var b=document.createElement("button");b.className="tab";b.type="button";b.setAttribute("role","tab");b.textContent=c;
+    b.onclick=function(){set(c);after()};box.appendChild(b);
+  });
+}
+function markTabs(box,cur){Array.prototype.forEach.call(box.children,function(b){b.setAttribute("aria-selected",b.textContent===cur?"true":"false")})}
+
+/* Salvajadas por tamaño */
+var SIZES=[["2 3 Personas","2–3"],["4 5 Personas","4–5"],["6 7 Personas","6–7"]];
+function renderSizes(){
+  var box=$("sizes");box.innerHTML="";
+  SIZES.forEach(function(s){
+    var list=(MENU["Salvajadas"]||[]).filter(function(p){return p[3]===s[0]});
+    if(!list.length)return;
+    var min=Math.min.apply(null,list.map(function(p){return p[2]}));
+    var d=document.createElement("div");d.className="size";
+    d.innerHTML='<div class="ppl"></div><div class="from">Desde <b class="price"></b></div><div class="kinds"></div>';
+    d.querySelector(".ppl").innerHTML=s[1]+"<small>personas</small>";
+    d.querySelector(".from b").textContent=money(min);
+    d.querySelector(".kinds").textContent=list.length+" combinaciones: pollo, carne, especial, la del barrio y más.";
+    var b=document.createElement("a");b.className="btn";b.href="#menu";b.textContent="Ver opciones";
+    b.onclick=function(){q.value=s[1].replace("–","-")+" personas";renderMenu()};
+    d.appendChild(b);box.appendChild(d);
+  });
+}
+
+/* Menú de comida con pestañas y búsqueda (la búsqueda incluye bebidas) */
+var cur="Salvajadas",tabs=$("tabs"),items=$("items"),q=$("buscar");
+makeTabs(tabs,MENU,null,function(c){cur=c;q.value=""},function(){renderMenu()});
+function renderMenu(){
+  var term=norm(q.value.trim());
+  markTabs(tabs,term?"":cur);
+  if(!term){fill(items,MENU[cur],function(p){return p[3]});return}
+  var list=Object.keys(ALL).map(function(k){return ALL[k]}).filter(function(p){return norm(p[0]+" "+p[1]+" "+p.cat+" "+p[3]).indexOf(term)>-1});
+  if(!list.length){items.innerHTML="";var e=document.createElement("p");e.className="empty";e.textContent="No encontramos \""+q.value.trim()+"\". Prueba con otra palabra.";items.appendChild(e);return}
+  fill(items,list,function(p){return p.cat});
+}
+q.addEventListener("input",renderMenu);
+
+/* Menú de bebidas */
+var dcur=Object.keys(DRINKS).indexOf("Bebidas")>-1?"Bebidas":Object.keys(DRINKS)[0],dtabs=$("dtabs"),ditems=$("ditems");
+makeTabs(dtabs,DRINKS,null,function(c){dcur=c},function(){renderDrinks()});
+function renderDrinks(){markTabs(dtabs,dcur);fill(ditems,DRINKS[dcur],function(p){return p[3]})}
+
+/* Carrito y mensaje de WhatsApp */
+var form=$("orderform"),send=$("sendlink");
+function extrasText(l){return l.o.map(function(i){return EXTRAS[i][0].toLowerCase()+" +"+money(EXTRAS[i][1])}).join(", ")}
+/* Marca o desmarca un adicional en una línea del carrito; si queda igual a otra línea, se juntan */
+function toggleExtra(l,i){
+  var o=l.o.indexOf(i)>-1?l.o.filter(function(x){return x!==i}):l.o.concat([i]).sort();
+  var twin=cart.filter(function(x){return x!==l&&same(x,l.k,o)})[0];
+  if(twin){twin.q+=l.q;cart=cart.filter(function(x){return x!==l})}else l.o=o;
+  saveCart();
+}
+function renderCart(){
+  var ul=$("cart");ul.innerHTML="";
+  if(!cart.length){var li=document.createElement("li");li.className="empty";li.textContent="Tu pedido está vacío. Agrega productos desde el menú.";ul.appendChild(li)}
+  cart.forEach(function(l,n){
+    var p=ALL[l.k],li=document.createElement("li"),nm=document.createElement("div");nm.className="nm";
+    nm.textContent=p[0];
+    var sm=document.createElement("small");
+    sm.textContent=hasExtras(p)?"Base "+money(p[2])+(l.o.length?" · con adicionales "+money(unit(l)):"")+" c/u":money(unit(l))+" c/u";
+    nm.appendChild(sm);
+    if(hasExtras(p)){
+      var box=document.createElement("div");box.className="opts";
+      EXTRAS.forEach(function(x,i){
+        var id="c-"+n+"-"+i,lb=document.createElement("label");lb.className="opt";lb.htmlFor=id;
+        var cb=document.createElement("input");cb.type="checkbox";cb.id=id;cb.checked=l.o.indexOf(i)>-1;
+        cb.onchange=function(){toggleExtra(l,i)};
+        var tx=document.createElement("span");tx.textContent=x[0];
+        var pb=document.createElement("b");pb.textContent="+"+money(x[1]);
+        lb.appendChild(cb);lb.appendChild(tx);lb.appendChild(pb);box.appendChild(lb);
+      });
+      nm.appendChild(box);
+    }
+    var pr=document.createElement("span");pr.className="price";pr.textContent=money(unit(l)*l.q);
+    li.appendChild(nm);li.appendChild(stepper(l.k,l.o,l.q,p[0]));li.appendChild(pr);ul.appendChild(li);
+  });
+  $("total").textContent=money(cartTotal());
+}
+function buildMsg(){
+  var n=form.nombre.value.trim(),nota=form.nota.value.trim(),dom=form.tipo.value==="domicilio",dir=form.direccion.value.trim();
+  var lines=["Hola, soy "+(n||"un cliente")+". Quiero pedir:"];
+  cart.forEach(function(l){lines.push("• "+l.q+" x "+ALL[l.k][0]+(l.o.length?" "+money(ALL[l.k][2])+" (con "+extrasText(l)+")":"")+" - "+money(unit(l)*l.q))});
+  lines.push("Total: "+money(cartTotal()));
+  lines.push("Entrega: "+(dom?"a domicilio"+(dir?" en "+dir:""):"para recoger en la sede"));
+  if(nota)lines.push("Notas: "+nota);
+  return lines.join("\n");
+}
+function syncLink(){$("dirwrap").hidden=form.tipo.value!=="domicilio";send.href="https://wa.me/"+WA+"?text="+encodeURIComponent(buildMsg())}
+form.addEventListener("input",syncLink);form.addEventListener("change",syncLink);
+form.addEventListener("submit",function(e){e.preventDefault()});
+
+/* Estado del pedido: etapas según el tiempo estimado, sin cuenta regresiva */
+var order=recall("qsm-pedido");if(!(order&&order.start&&order.mins))order=null;
+send.addEventListener("click",function(e){
+  if(!cartCount()){e.preventDefault();$("warn").hidden=false;return}
+  $("warn").hidden=true;syncLink();
+  var dom=form.tipo.value==="domicilio";
+  order={start:Date.now(),mins:dom?ETA.domicilio:ETA.recoger,dom:dom,n:cartCount(),total:cartTotal()};
+  store("qsm-pedido",order);
+  cart=[];saveCart();
+});
+$("stclear").addEventListener("click",function(){order=null;store("qsm-pedido",null);loadAt=Date.now();renderStatus()});
+
+var el={dot:$("stdot"),label:$("stlabel"),sub:$("stsub"),eta:$("steta"),order:$("storder"),clear:$("stclear"),bars:$("stbars").querySelectorAll("b"),names:$("stnames").querySelectorAll("span"),n3:$("stname3")};
+function items_(n){return n+(n===1?" producto":" productos")}
+function hour(t){return new Date(t).toLocaleTimeString("es-CO",{hour:"numeric",minute:"2-digit"})}
+function renderStatus(){
+  if(order&&Date.now()-order.start>order.mins*60000+3*3600000){order=null;store("qsm-pedido",null)}
+  if(!order){
+    var c=cartCount();
+    el.dot.className="dot idle";
+    el.label.textContent=c?"Tu pedido: "+items_(c)+" · "+money(cartTotal()):"Sin pedido activo";
+    el.sub.textContent=c?"Aún no lo envías. Revísalo y mándalo por WhatsApp.":"Hoy: recoger ~"+ETA.recoger+" min · domicilio ~"+ETA.domicilio+" min";
+    el.eta.hidden=true;el.clear.hidden=true;el.order.hidden=false;
+    el.order.textContent=c?"Ver pedido":"Pedir ahora";el.order.href=c?"#pedido":"#menu";
+    el.n3.textContent="En camino";
+    el.bars.forEach(function(b){b.style.width="0"});el.names.forEach(function(s){s.className=""});
+    return;
+  }
+  var f=(Date.now()-order.start)/(order.mins*60000),stage=f<.12?0:f<.7?1:f<1?2:3;
+  var labels=order.dom
+    ?["Pedido enviado, esperando confirmación","Preparando tu pedido","Tu pedido va en camino","Debería haber llegado"]
+    :["Pedido enviado, esperando confirmación","Preparando tu pedido","Casi listo para recoger","Listo para recoger"];
+  el.n3.textContent=order.dom?"En camino":"Casi listo";
+  el.dot.className="dot"+(stage===3?" idle":"");
+  el.label.textContent=labels[stage];
+  el.sub.textContent=items_(order.n||1)+(order.total?" · "+money(order.total):"")+" · "+(order.dom?"domicilio":"recoger en sede")+(stage===3?" · ¿Algo pasó? Escríbenos al WhatsApp":" · te confirmamos por WhatsApp");
+  el.bars.forEach(function(b,i){b.style.width=(i<=stage&&!(i===3&&stage<3)?100:0)+"%"});
+  el.names.forEach(function(s,i){s.className=i===stage?"on":""});
+  el.eta.hidden=false;
+  el.eta.firstChild.nodeValue="~"+order.mins+" min";
+  el.eta.lastChild.textContent="listo hacia las "+hour(order.start+order.mins*60000);
+  el.order.hidden=true;el.clear.hidden=false;
+}
+
+/* Reinicio: si en 10 minutos no se envía un pedido, la página se recarga y el carrito se vacía */
+var loadAt=Date.now();
+function idleTick(){
+  if(order){$("idlewarn").hidden=true;return}
+  var left=IDLE_MS-(Date.now()-loadAt);
+  $("idlewarn").hidden=left>60000;
+  if(left<=0){store("qsm-carrito2",null);location.reload()}
+}
+
+function renderAll(){renderMenu();renderDrinks();renderCart();syncLink();renderStatus()}
+$("copybtn").addEventListener("click",function(){
+  var b=this;
+  function ok(){b.textContent="Copiado";setTimeout(function(){b.textContent="Copiar"},1500)}
+  function sel(){var r=document.createRange();r.selectNodeContents($("num"));var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  try{navigator.clipboard.writeText("+57 302 355 9689").then(ok,sel)}catch(x){sel()}
+});
+renderSizes();renderAll();
+setInterval(function(){if(order)renderStatus();idleTick()},1000);
+</script>
+
+</body>
+</html>
