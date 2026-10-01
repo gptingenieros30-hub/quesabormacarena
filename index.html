@@ -9,7 +9,7 @@
 <title>Qué Sabor Macarena</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Figtree:wght@400;500;700&display=swap">
 <style>
-/* Layout: hero con sello-logo, salvajadas por tamaño, menú completo con carrito, ubicación, pedido por WhatsApp y barra de estado fija */
+/* Layout: hero con sello-logo, salvajadas por tamaño, menú completo con carrito, ubicación, pedido por WhatsApp y carrito fijo */
 :root{
   --bg:#f1f8ee;
   --surface:#ffffff;
@@ -137,7 +137,7 @@ textarea{min-height:76px;resize:vertical}
 .contact{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;font-variant-numeric:tabular-nums}
 .copy{font:inherit;font-size:13px;font-weight:700;padding:4px 12px;border-radius:999px;border:2px solid var(--line);background:transparent;color:var(--fg);cursor:pointer}
 
-footer{padding-block:32px calc(var(--sb,110px) + 90px);text-align:center;color:var(--muted);font-size:14px}
+footer{padding-block:32px 110px;text-align:center;color:var(--muted);font-size:14px}
 
 /* panel del carrito, siempre visible */
 .cartpanel{position:fixed;z-index:45;background:var(--surface);border:2px solid var(--forest);display:flex;flex-direction:column;box-shadow:0 -6px 24px rgba(15,61,42,.18)}
@@ -154,45 +154,24 @@ footer{padding-block:32px calc(var(--sb,110px) + 90px);text-align:center;color:v
 .cp-foot .total{margin:0;font-size:18px}
 @media (min-width:1200px){
   body{padding-right:376px}
-  .cartpanel{right:16px;top:16px;bottom:calc(var(--sb,110px) + 12px);width:344px;border-radius:20px;overflow:hidden}
+  .cartpanel{right:16px;top:16px;bottom:16px;width:344px;border-radius:20px;overflow:hidden}
   .cp-head{cursor:default}
   .cp-toggle{display:none}
 }
 @media (max-width:1199px){
-  .cartpanel{left:0;right:0;bottom:var(--sb,110px);border-width:2px 0 0;border-radius:18px 18px 0 0;max-height:min(60vh,520px)}
+  .cartpanel{left:0;right:0;bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);border-width:2px 0 0;border-radius:18px 18px 0 0;max-height:min(60vh,520px)}
   .cartpanel:not(.open) .cp-body,.cartpanel:not(.open) .cp-foot{display:none}
 }
 
-/* barra de estado fija */
-.status{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--forest);color:var(--on-forest);border-top:3px solid var(--lime);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
-.status-in{max-width:1080px;margin-inline:auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.st-main{flex:1 1 260px;min-width:0}
-.st-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.st-label{font-weight:700;font-size:16px}
-.st-sub{font-size:13px;color:var(--soft-on-forest)}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--lime);flex:none;align-self:center;box-shadow:0 0 0 0 rgba(185,226,58,.7);animation:pulse 1.8s infinite}
-.dot.idle{background:#7fa58c;animation:none}
-@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(185,226,58,0)}100%{box-shadow:0 0 0 0 rgba(185,226,58,0)}}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px}
-.steps i{height:6px;border-radius:3px;background:rgba(255,255,255,.18);position:relative;overflow:hidden}
-.steps i b{position:absolute;inset:0;width:0;background:var(--lime);transition:width .6s}
-.steps-names{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px;font-size:11px;letter-spacing:.04em;color:var(--soft-on-forest)}
-.steps-names span.on{color:var(--lime);font-weight:700}
-.eta{font-family:var(--font-display);font-size:24px;line-height:1;color:var(--lime);text-align:right}
-.idle-warn{flex-basis:100%;background:var(--lime);color:#10301f;font-weight:700;font-size:14px;border-radius:10px;padding:6px 12px}
-.eta small{display:block;font-family:var(--font-body);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft-on-forest);margin-top:3px}
-.st-actions{display:flex;gap:8px}
-.st-actions .btn{padding:8px 14px;font-size:14px}
-.st-actions .btn.ghost{color:var(--on-forest);border-color:rgba(255,255,255,.5)}
+.idle-warn{background:var(--forest);color:var(--lime);font-weight:700;font-size:14px;padding:8px 16px}
 
 @media (max-width:760px){
   .hero,.order,.loc{grid-template-columns:1fr}
   .sizes{grid-template-columns:1fr}
   .badge{width:min(70%,240px)}
   nav a.hide-s{display:none}
-  .steps-names{font-size:10px}.eta{font-size:22px}
 }
-@media (prefers-reduced-motion:reduce){.spin,.strip span,.dot{animation:none}.btn:hover{transform:none}.steps i b{transition:none}}
+@media (prefers-reduced-motion:reduce){.spin,.strip span{animation:none}.btn:hover{transform:none}}
 </style>
 
 <div class="wrap">
@@ -316,7 +295,7 @@ footer{padding-block:32px calc(var(--sb,110px) + 90px);text-align:center;color:v
         <label for="nota">Notas<textarea id="nota" name="nota" placeholder="Sin cebolla, salsas aparte, forma de pago…"></textarea></label>
         <p class="warn" id="warn" hidden>Agrega al menos un producto del menú antes de enviar.</p>
         <a class="btn" id="sendlink" href="https://wa.me/573023559689" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
-        <p class="note" style="margin:0">Al enviarlo, la barra de abajo sigue tu pedido con el tiempo estimado.</p>
+        <p class="note" style="margin:0">Al enviarlo se abre WhatsApp con tu pedido listo. Allí te confirmamos el tiempo de entrega.</p>
       </form>
     </div>
   </section>
@@ -325,6 +304,7 @@ footer{padding-block:32px calc(var(--sb,110px) + 90px);text-align:center;color:v
 </div>
 
 <aside class="cartpanel" id="cartpanel" aria-label="Carrito">
+  <div class="idle-warn" id="idlewarn" role="status" hidden>Si no envías tu pedido, la página se reiniciará en 1 minuto y se vaciará el carrito.</div>
   <button class="cp-head" type="button" id="cptoggle" aria-expanded="false" aria-controls="cpbody">
     <span class="lbl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.2l2.3 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7H6.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="19" r="1.6" fill="currentColor"/><circle cx="17" cy="19" r="1.6" fill="currentColor"/></svg><span id="cpsum">Carrito vacío</span></span>
     <span class="cp-toggle" id="cparrow">Ver</span>
@@ -335,23 +315,6 @@ footer{padding-block:32px calc(var(--sb,110px) + 90px);text-align:center;color:v
     <a class="btn" href="#pedido" id="cpgo">Finalizar pedido</a>
   </div>
 </aside>
-
-<div class="status" id="status" role="status" aria-live="polite">
-  <div class="status-in">
-    <span class="dot idle" id="stdot"></span>
-    <div class="st-main">
-      <div class="st-top"><span class="st-label" id="stlabel">Sin pedido activo</span><span class="st-sub" id="stsub">Hoy: recoger ~15 min · domicilio ~30 min</span></div>
-      <div class="steps" id="stbars"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
-      <div class="steps-names" id="stnames"><span>Enviado</span><span>Preparando</span><span id="stname3">En camino</span><span>Entregado</span></div>
-    </div>
-    <div class="eta" id="steta" hidden>~15 min<small>tiempo estimado</small></div>
-    <div class="st-actions">
-      <a class="btn" id="storder" href="#menu">Pedir ahora</a>
-      <button class="btn ghost" type="button" id="stclear" hidden>Cerrar</button>
-    </div>
-    <div class="idle-warn" id="idlewarn" hidden>Si no envías tu pedido, la página se reiniciará en 1 minuto y se vaciará el carrito.</div>
-  </div>
-</div>
 
 <script>
 /* Menú y bebidas: [nombre, descripción, precio, subcategoría, foto] por categoría */
@@ -377,7 +340,7 @@ function hasExtras(p){return p.cat===EXTRA_CAT}
 var cart=(recall("qsm-carrito2")||[]).filter(function(l){return l&&ALL[l.k]&&l.q>0});
 function same(l,k,o){return l.k===k&&l.o.join()===o.join()}
 function saveCart(){store("qsm-carrito2",cart);renderAll()}
-function addLine(k,o,n){
+function addLine(k,o,n){sent=false;loadAt=Date.now();
   var l=cart.filter(function(x){return same(x,k,o)})[0];
   if(l)l.q+=n;else cart.push({k:k,o:o.slice(),q:n});
   cart=cart.filter(function(x){return x.q>0});saveCart();
@@ -503,7 +466,7 @@ function renderCart(){
   renderCartInto($("cart"),"c");renderCartInto($("cart2"),"p");
   var c=cartCount(),t=money(cartTotal());
   $("total").textContent=t;$("total2").textContent=t;
-  $("cpsum").textContent=c?"Carrito · "+items_(c)+" · "+t:"Carrito vacío";
+  $("cpsum").textContent=c?"Carrito · "+items_(c)+" · "+t:(sent?"Pedido enviado por WhatsApp. Te confirmamos por allá.":"Carrito vacío");
   $("cpgo").hidden=!c;
 }
 function renderCartInto(ul,pre){
@@ -551,79 +514,43 @@ function syncLink(){$("dirwrap").hidden=form.tipo.value!=="domicilio";send.href=
 form.addEventListener("input",syncLink);form.addEventListener("change",syncLink);
 form.addEventListener("submit",function(e){e.preventDefault()});
 
-/* Estado del pedido: etapas según el tiempo estimado, sin cuenta regresiva */
-var order=recall("qsm-pedido");if(!(order&&order.start&&order.mins))order=null;
+/* Envío: WhatsApp recibe el enlace con el pedido completo y después se vacía el carrito */
+var sent=false;
 send.addEventListener("click",function(e){
   if(!cartCount()){e.preventDefault();$("warn").hidden=false;return}
   $("warn").hidden=true;syncLink();
-  var dom=form.tipo.value==="domicilio";
-  order={start:Date.now(),mins:dom?ETA.domicilio:ETA.recoger,dom:dom,n:cartCount(),total:cartTotal()};
-  store("qsm-pedido",order);renderStatus();
-  /* el carrito se vacía después de que WhatsApp ya recibió el enlace con el pedido completo */
+  sent=true;$("idlewarn").hidden=true;
   setTimeout(function(){cart=[];saveCart()},1500);
 });
 /* Panel del carrito: en celular se abre y se cierra; en pantallas grandes queda abierto */
 var panel=$("cartpanel");
+function closePanel(){panel.classList.remove("open");$("cptoggle").setAttribute("aria-expanded","false");$("cparrow").textContent="Ver"}
 $("cptoggle").addEventListener("click",function(){
   var open=panel.classList.toggle("open");
   this.setAttribute("aria-expanded",open);$("cparrow").textContent=open?"Ocultar":"Ver";
 });
-$("cpgo").addEventListener("click",function(){panel.classList.remove("open");$("cptoggle").setAttribute("aria-expanded","false");$("cparrow").textContent="Ver"});
-function fitBars(){document.documentElement.style.setProperty("--sb",$("status").offsetHeight+"px")}
-window.addEventListener("resize",fitBars);
-$("stclear").addEventListener("click",function(){order=null;store("qsm-pedido",null);loadAt=Date.now();renderStatus()});
-
-var el={dot:$("stdot"),label:$("stlabel"),sub:$("stsub"),eta:$("steta"),order:$("storder"),clear:$("stclear"),bars:$("stbars").querySelectorAll("b"),names:$("stnames").querySelectorAll("span"),n3:$("stname3")};
+$("cpgo").addEventListener("click",closePanel);
 function items_(n){return n+(n===1?" producto":" productos")}
-function hour(t){return new Date(t).toLocaleTimeString("es-CO",{hour:"numeric",minute:"2-digit"})}
-function renderStatus(){
-  if(order&&Date.now()-order.start>order.mins*60000+3*3600000){order=null;store("qsm-pedido",null)}
-  if(!order){
-    var c=cartCount();
-    el.dot.className="dot idle";
-    el.label.textContent=c?"Tu pedido: "+items_(c)+" · "+money(cartTotal()):"Sin pedido activo";
-    el.sub.textContent=c?"Aún no lo envías. Revísalo y mándalo por WhatsApp.":"Hoy: recoger ~"+ETA.recoger+" min · domicilio ~"+ETA.domicilio+" min";
-    el.eta.hidden=true;el.clear.hidden=true;el.order.hidden=false;
-    el.order.textContent=c?"Ver pedido":"Pedir ahora";el.order.href=c?"#pedido":"#menu";
-    el.n3.textContent="En camino";
-    el.bars.forEach(function(b){b.style.width="0"});el.names.forEach(function(s){s.className=""});
-    fitBars();return;
-  }
-  var f=(Date.now()-order.start)/(order.mins*60000),stage=f<.12?0:f<.7?1:f<1?2:3;
-  var labels=order.dom
-    ?["Pedido enviado, esperando confirmación","Preparando tu pedido","Tu pedido va en camino","Debería haber llegado"]
-    :["Pedido enviado, esperando confirmación","Preparando tu pedido","Casi listo para recoger","Listo para recoger"];
-  el.n3.textContent=order.dom?"En camino":"Casi listo";
-  el.dot.className="dot"+(stage===3?" idle":"");
-  el.label.textContent=labels[stage];
-  el.sub.textContent=items_(order.n||1)+(order.total?" · "+money(order.total):"")+" · "+(order.dom?"domicilio":"recoger en sede")+(stage===3?" · ¿Algo pasó? Escríbenos al WhatsApp":" · te confirmamos por WhatsApp");
-  el.bars.forEach(function(b,i){b.style.width=(i<=stage&&!(i===3&&stage<3)?100:0)+"%"});
-  el.names.forEach(function(s,i){s.className=i===stage?"on":""});
-  el.eta.hidden=false;
-  el.eta.firstChild.nodeValue="~"+order.mins+" min";
-  el.eta.lastChild.textContent="listo hacia las "+hour(order.start+order.mins*60000);
-  el.order.hidden=true;el.clear.hidden=false;
-  fitBars();
-}
 
 /* Reinicio: si en 10 minutos no se envía un pedido, la página se recarga y el carrito se vacía */
 var loadAt=Date.now();
 function idleTick(){
-  if(order){$("idlewarn").hidden=true;return}
+  if(sent)return;
   var left=IDLE_MS-(Date.now()-loadAt);
-  var w=left>60000;if($("idlewarn").hidden!==w){$("idlewarn").hidden=w;fitBars()}
+  $("idlewarn").hidden=left>60000;
   if(left<=0){store("qsm-carrito2",null);location.reload()}
 }
 
-function renderAll(){renderMenu();renderDrinks();renderCart();syncLink();renderStatus()}
+function renderAll(){renderMenu();renderDrinks();renderCart();syncLink()}
 $("copybtn").addEventListener("click",function(){
   var b=this;
   function ok(){b.textContent="Copiado";setTimeout(function(){b.textContent="Copiar"},1500)}
   function sel(){var r=document.createRange();r.selectNodeContents($("num"));var s=getSelection();s.removeAllRanges();s.addRange(r)}
   try{navigator.clipboard.writeText("+57 302 355 9689").then(ok,sel)}catch(x){sel()}
 });
+store("qsm-pedido",null);
 renderSizes();renderAll();
-setInterval(function(){if(order)renderStatus();idleTick()},1000);
+setInterval(idleTick,1000);
 </script>
 
 </body>
